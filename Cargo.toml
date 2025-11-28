@@ -1,0 +1,6 @@
+[workspace]
+name = "ferris-rgb"
+version = "0.1.0"
+edition = "2024"
+members = [ "ferris-rgb-core"]
+resolver = "3"
