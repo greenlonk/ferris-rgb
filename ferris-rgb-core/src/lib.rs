@@ -22,7 +22,7 @@ mod tests {
 
     #[test]
     fn test_config_matrix() {
-        use crate::domain::{Configured, Matrix, MatrixConfig};
+        use crate::domain::matrix::{Configured, Matrix, MatrixConfig};
 
         let my_matrix: Matrix<Uninitialized> = Matrix::new();
 
@@ -37,5 +37,34 @@ mod tests {
         assert_eq!(configured_matrix.get_height(), 64);
         assert_eq!(configured_matrix.get_width(), 64);
         assert_eq!(configured_matrix.get_refresh_rate(), 60);
+    }
+
+    #[test]
+    fn test_default_config_matrix() {
+        use crate::domain::matrix::{Configured, Matrix, MatrixConfig};
+
+        let my_matrix: Matrix<Uninitialized> = Matrix::new();
+        let default_config: MatrixConfig = MatrixConfig::default();
+        let configured_matrix: Matrix<Configured> = my_matrix.configure(default_config);
+
+        assert_eq!(configured_matrix.get_height(), 64);
+        assert_eq!(configured_matrix.get_width(), 64);
+        assert_eq!(configured_matrix.get_refresh_rate(), 60);
+    }
+
+    #[test]
+    fn test_configured_matrix_init_driver() {
+        use crate::domain::matrix::*;
+
+        let my_matrix: Matrix<Uninitialized> = Matrix::new();
+        let matrix_config: MatrixConfig = MatrixConfig::default();
+
+        let configured_matrix: Matrix<Configured> = my_matrix.configure(matrix_config);
+
+        let driver_config = DriverConfig::default();
+
+        let ready_matrix: Matrix<Ready> = configured_matrix.init_driver(driver_config);
+
+        assert_eq!(ready_matrix.state.driver.hardware_mapping, "adafruit-hat");
     }
 }
