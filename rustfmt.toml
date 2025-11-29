@@ -1,0 +1,15 @@
+indent_style = "Block"
+fn_call_width = 80
+
+max_width = 120
+hard_tabs = false
+tab_spaces = 4
+newline_style = "Unix"
+
+group_imports = "StdExternalCrate"
+reorder_imports = true
+reorder_modules = true
+
+trailing_comma = "Vertical"
+
+imports_granularity = "Crate"
