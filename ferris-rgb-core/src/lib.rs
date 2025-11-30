@@ -67,4 +67,14 @@ mod tests {
 
         assert_eq!(ready_matrix.state.driver.hardware_mapping, "adafruit-hat");
     }
+
+    #[test]
+    fn test_driver_config_default() {
+        use crate::domain::matrix::DriverConfig;
+
+        let default_config = DriverConfig::default();
+        assert_eq!(default_config.hardware_mapping, "adafruit-hat");
+        assert_eq!(default_config.rgb_sequence, "RGB");
+        assert_eq!(default_config.brightness, 128);
+    }
 }
