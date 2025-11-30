@@ -17,7 +17,7 @@ mod tests {
 
         assert_eq!(std::mem::size_of::<Matrix<Uninitialized>>(), 0); // This is a zero-sized type
 
-        let inner = my_matrix.into_inner();
+        let _inner = my_matrix.into_inner();
     }
 
     #[test]
