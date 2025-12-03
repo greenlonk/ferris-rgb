@@ -36,7 +36,9 @@
     "vscode": {
       "extensions": [
         "arrterian.nix-env-selector",
-        "mkhl.direnv"
+        "mkhl.direnv",
+        "rust-lang.rust-analyzer",
+        "jnoortheen.nix-ide"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh"
