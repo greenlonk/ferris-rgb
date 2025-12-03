@@ -16,18 +16,31 @@
     "NIX_CONFIG": "extra-experimental-features = nix-command flakes"
   },
   // 3. Automation: Set up Direnv to trust the flake immediately
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y direnv -q && echo 'eval \"$(direnv hook bash)\"' >> ~/.zshrc && echo 'use flake' > .envrc && direnv allow",
+  "postCreateCommand": [
+    "/bin/sh",
+    "-c",
+    "echo 'eval \"$(direnv hook zsh)\"' >> ~/.zshrc && echo 'eval \"$(nix print-dev-env --extra-experimental-features nix-command --extra-experimental-features flakes)\"' > .envrc && direnv allow"
+  ],
   "customizations": {
     "jetbrains": {
       "settings": {
+        "com.intellij:app:BuiltInServerOptions.builtInServerPort": 59607,
         "com.intellij:app:HttpConfigurable.use_proxy_pac": true
-      }
+      },
+      "plugins": [
+        "systems.fehn.intellijdirenv",
+        "org.toml.lang",
+        "nix-idea"
+      ]
     },
     "vscode": {
       "extensions": [
         "arrterian.nix-env-selector",
         "mkhl.direnv"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
     }
     // JetBrains automatically detects the shell environment if direnv is active
   },

@@ -1,5 +1,6 @@
 {
   description = "Ferris RGB Dev Env";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     rust-overlay.url = "github:oxalica/rust-overlay";
@@ -7,24 +8,34 @@
 
   outputs = { self, nixpkgs, rust-overlay, ... }:
     let
-      system = "x86_64-linux";
-      overlays = [ (import rust-overlay) ];
-      pkgs = import nixpkgs { inherit system overlays; };
+      # 1. Define supported architectures (Intel + Apple Silicon)
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+
+      # 2. Helper function to generate attributes for each system
+      forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ (import rust-overlay) ];
+        };
+      });
     in
     {
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          direnv
-          rust-bin.stable.latest.default
-          rust-analyzer
-          pkg-config
-          openssl
-        ];
-        
-        # ⚡ Critical: This hook ensures IDEs pick up the environment
-        shellHook = ''
-          export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.openssl ]}
-        '';
-      };
+      # 3. Use the helper to create devShells for both architectures
+      devShells = forAllSystems ({ pkgs }: {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            direnv
+            rust-bin.stable.latest.default
+            rust-analyzer
+            pkg-config
+            openssl
+          ];
+
+          shellHook = ''
+            export SHELL=$(which zsh)
+            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.openssl ]}
+          '';
+        };
+      });
     };
 }
