@@ -12,4 +12,10 @@ mod tests {
         let display_service = DisplayService::new();
         assert!(display_service.is_initialized());
     }
+
+    #[test]
+    fn test_display_service_rendering() {
+        let display_service = DisplayService::new();
+        display_service.render_content("Hello, Ferris RGB!");
+    }
 }
