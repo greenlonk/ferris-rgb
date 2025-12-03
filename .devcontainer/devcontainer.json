@@ -1,0 +1,43 @@
+{
+  "name": "Nix-backed Rust Env",
+  "dockerFile": "Dockerfile",
+  "features": {
+    // 1. Install Nix (Single-user mode is usually fine for containers)
+    "ghcr.io/devcontainers/features/nix:1": {
+      "version": "latest",
+      "multiUser": false
+    },
+    // 2. Install Direnv to auto-load the flake
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    }
+  },
+  "containerEnv": {
+    "NIX_CONFIG": "extra-experimental-features = nix-command flakes"
+  },
+  // 3. Automation: Set up Direnv to trust the flake immediately
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y direnv -q && echo 'eval \"$(direnv hook bash)\"' >> ~/.zshrc && echo 'use flake' > .envrc && direnv allow",
+  "customizations": {
+    "jetbrains": {
+      "settings": {
+        "com.intellij:app:HttpConfigurable.use_proxy_pac": true
+      }
+    },
+    "vscode": {
+      "extensions": [
+        "arrterian.nix-env-selector",
+        "mkhl.direnv"
+      ]
+    }
+    // JetBrains automatically detects the shell environment if direnv is active
+  },
+  // 4. Permissions: Nix often needs privileges for /nix/store operations
+  "runArgs": [
+    "--privileged"
+  ],
+  // 5. Mount the nix store (Optional: caching optimization)
+  // If you want to persist the nix store between rebuilds to save time:
+  "mounts": [
+    "source=nix-store-volume,target=/nix,type=volume"
+  ]
+}
