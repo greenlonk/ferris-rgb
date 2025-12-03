@@ -1,3 +1,5 @@
+use crate::domain::matrix_traits::{Configurable, DriverInitializable};
+
 pub struct Uninitialized;
 
 pub struct Matrix<S> {
@@ -17,8 +19,9 @@ impl Matrix<Uninitialized> {
     pub fn new() -> Self {
         Matrix { state: Uninitialized }
     }
-
-    pub fn configure(self, config: MatrixConfig) -> Matrix<Configured> {
+}
+impl Configurable for Matrix<Uninitialized> {
+    fn configure(self, config: MatrixConfig) -> Matrix<Configured> {
         self.map_state(|_| Configured { config })
     }
 }
@@ -55,8 +58,9 @@ impl Matrix<Configured> {
     pub fn get_refresh_rate(&self) -> u32 {
         self.state.config.refresh_rate
     }
-
-    pub fn init_driver(self, driver_config: DriverConfig) -> Matrix<Ready> {
+}
+impl DriverInitializable for Matrix<Configured> {
+    fn init_driver(self, driver_config: DriverConfig) -> Matrix<Ready> {
         self.map_state(|configured| Ready {
             matrix: configured.config,
             driver: driver_config,
