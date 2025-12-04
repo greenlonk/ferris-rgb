@@ -25,6 +25,7 @@
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
             rust-bin.stable.latest.default
+            rustup
             rust-analyzer
             pkg-config
             bacon
@@ -45,6 +46,7 @@
 
           shellHook = ''
             export SHELL=$(which zsh)
+            export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust
             export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.openssl ]}
           '';
         };

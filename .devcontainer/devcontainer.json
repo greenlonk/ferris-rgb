@@ -17,7 +17,7 @@
   },
   // 3. Automation: Set up Direnv to trust the flake immediately
   "postCreateCommand": [
-    "/bin/sh",
+    "/bin/zsh",
     "-c",
     "echo 'eval \"$(direnv hook zsh)\"' >> ~/.zshrc && direnv allow"
   ],
