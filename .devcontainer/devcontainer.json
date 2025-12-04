@@ -7,7 +7,7 @@
       "version": "latest",
       "multiUser": false
     },
-    // 2. Install Direnv to auto-load the flake
+    // 2. Common utilities including Zsh
     "ghcr.io/devcontainers/features/common-utils:2": {
       "configureZshAsDefaultShell": true
     }
@@ -19,7 +19,7 @@
   "postCreateCommand": [
     "/bin/sh",
     "-c",
-    "echo 'eval \"$(direnv hook zsh)\"' >> ~/.zshrc && echo 'eval \"$(nix print-dev-env --extra-experimental-features nix-command --extra-experimental-features flakes)\"' > .envrc && direnv allow"
+    "echo 'eval \"$(direnv hook zsh)\"' >> ~/.zshrc && direnv allow"
   ],
   "customizations": {
     "jetbrains": {
@@ -29,22 +29,23 @@
       },
       "plugins": [
         "systems.fehn.intellijdirenv",
+        "com.jetbrains.rust",
         "org.toml.lang",
         "nix-idea"
       ]
     },
     "vscode": {
       "extensions": [
-        "arrterian.nix-env-selector",
-        "mkhl.direnv",
         "rust-lang.rust-analyzer",
-        "jnoortheen.nix-ide"
+        "jnoortheen.nix-ide",
+        "tamasfe.even-better-toml"
       ],
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "zsh"
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.fontFamily": "JetBrains Mono, monospace",
+        "terminal.integrated.fontFamily": "JetBrains Mono"
       }
     }
-    // JetBrains automatically detects the shell environment if direnv is active
   },
   // 4. Permissions: Nix often needs privileges for /nix/store operations
   "runArgs": [

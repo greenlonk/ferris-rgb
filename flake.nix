@@ -24,7 +24,6 @@
       devShells = forAllSystems ({ pkgs }: {
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            direnv
             rust-bin.stable.latest.default
             rust-analyzer
             pkg-config
