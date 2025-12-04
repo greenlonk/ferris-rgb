@@ -21,11 +21,15 @@
     in
     {
       # 3. Use the helper to create devShells for both architectures
-      devShells = forAllSystems ({ pkgs }: {
+      devShells = forAllSystems ({ pkgs }: let
+        myRust = pkgs.rust-bin.stable.latest.default.override {
+              extensions = [ "rust-src" "rustfmt" "clippy"];
+              # target, etc...
+            };
+        in {
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            rust-bin.stable.latest.default
-            rustup
+            myRust
             rust-analyzer
             pkg-config
             bacon
@@ -48,6 +52,12 @@
             export SHELL=$(which zsh)
             export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust
             export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.openssl ]}
+
+            export RUST_SYSROOT=$PWD/.sysroot
+            mkdir -p $RUST_SYSROOT
+
+            # Copy or symlink the sysroot read-only from nix store for rust-analyzer support inside VSCode
+            ln -sf $(rustc --print sysroot) $RUST_SYSROOT/sysroot
           '';
         };
       });
