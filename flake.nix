@@ -27,7 +27,20 @@
             rust-bin.stable.latest.default
             rust-analyzer
             pkg-config
+            bacon
+            cargo-udeps
+            cargo-expand
+            cargo-chef
+            cargo-diet
             openssl
+            delta
+            glow
+            just
+            fzf
+            ripgrep
+            fd
+            bat
+            tokei
           ];
 
           shellHook = ''
