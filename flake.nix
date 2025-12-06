@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, rust-overlay, ... }:
     let
       # 1. Define supported architectures (Intel + Apple Silicon)
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
 
       # 2. Helper function to generate attributes for each system
       forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
@@ -46,6 +46,7 @@
             fd
             bat
             tokei
+            nats-server
           ];
 
           shellHook = ''

@@ -2,5 +2,5 @@
 name = "ferris-rgb"
 version = "0.1.0"
 edition = "2024"
-members = [ "ferris-rgb-core"]
+members = [ "ferris-rgb-core", "ferris-rgb-nats"]
 resolver = "3"
