@@ -1,4 +1,4 @@
-mod display_service;
+pub mod display_service;
 
 #[cfg(test)]
 mod tests {

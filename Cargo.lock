@@ -41,6 +41,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "ferris-rgb-runner"
+version = "0.1.0"
+dependencies = [
+ "ferris-rgb-core",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.178"
 source = "registry+https://github.com/rust-lang/crates.io-index"

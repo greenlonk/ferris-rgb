@@ -1,6 +1,9 @@
-use crate::domain::{DriverConfig, Matrix, Ready};
+use crate::{
+    domain::{DriverConfig, Matrix, Ready},
+    infra::matrix_controller::MatrixController,
+};
 
-pub(crate) struct DisplayService {
+pub struct DisplayService {
     matrix: Matrix<Ready>,
 }
 
@@ -25,5 +28,9 @@ impl DisplayService {
     pub fn is_initialized(&self) -> bool {
         // Check if the display service is properly initialized
         true
+    }
+
+    pub fn show_clock(&self) {
+        MatrixController::spawn_clock_process();
     }
 }

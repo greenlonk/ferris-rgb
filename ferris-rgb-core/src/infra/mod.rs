@@ -1,2 +1,2 @@
 pub mod http;
-mod matrix_controller;
+pub(crate) mod matrix_controller;
