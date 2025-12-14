@@ -1,0 +1,7 @@
+[package]
+name = "ferris-rgb-runner"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ferris-rgb-core = { path = "../ferris-rgb-core" }
